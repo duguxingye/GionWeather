@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gion.app.weather.gionweather.R;
+import com.gion.app.weather.gionweather.service.AutoUpdateService;
 import com.gion.app.weather.gionweather.util.HttpCallBackListener;
 import com.gion.app.weather.gionweather.util.HttpUtil;
 import com.gion.app.weather.gionweather.util.Utility;
@@ -137,6 +138,8 @@ public class WeatherActivity extends Activity {
         currentDateText.setText(prefs.getString("current_date", ""));
         weatherInfoLayout.setVisibility(View.VISIBLE);
         cityNameText.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
 
     @Override
