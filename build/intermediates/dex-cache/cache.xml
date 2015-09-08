@@ -2,11 +2,18 @@
 <items version="2" >
 
     <item
-        jar="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
+        jar="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
-        <dex dex="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\pre-dexed\debug\classes-c210ece637a1bd45f7f450b1ff8e4827ee821bb7.jar" />
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-bcd223f24ec1127510849540613358fabcfe6217.jar" />
+    </item>
+    <item
+        jar="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4356e230a981d1bbf047d848b91bc0d9b7c5bacc">
+        <dex dex="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\pre-dexed\debug\classes-63899d544c09e9032bce6bc1c13019f2e6705aa3.jar" />
     </item>
     <item
         jar="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\jars\classes.jar"
@@ -16,18 +23,25 @@
         <dex dex="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\pre-dexed\debug\classes-a4ea6063cd5d57fbcbaad95ebd41af0c3e50eb13.jar" />
     </item>
     <item
-        jar="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jar="D:\hua\AppData\Local\Android\sdk1\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
-        <dex dex="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-884c0eab3b372f31578d0e74ca50f79fdcf51f91.jar" />
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-a98532a2cdea1c1ec1bda1bb527e8f73608e64be.jar" />
     </item>
     <item
-        jar="D:\hua\AppData\Local\Android\sdk1\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
+        jar="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.0.1\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
-        <dex dex="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.0-52f13749249699da2e2ada929816a20ada3e3d04.jar" />
+        sha1="39ae02ce40c3ac828abbf780ce0ff5d7a28b7d6a">
+        <dex dex="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\pre-dexed\debug\classes-bcb0f26276376b0e7a7b229679a92385dc15c38a.jar" />
+    </item>
+    <item
+        jar="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="D:\hua\AndroidStudioProjects\GionWeather\app\build\intermediates\pre-dexed\debug\classes-a4e628c4669d3ddcca4a76d1d556a0528fd13a78.jar" />
     </item>
 
 </items>

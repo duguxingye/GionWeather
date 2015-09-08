@@ -3,13 +3,20 @@ package com.gion.app.weather.gionweather.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -24,6 +31,8 @@ import com.gion.app.weather.gionweather.util.Utility;
 public class WeatherActivity extends Activity {
 
     private LinearLayout weatherInfoLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private CardView cardView;
     private TextView cityNameText;
     private TextView publishText;
     private TextView weatherDespText;
@@ -34,11 +43,30 @@ public class WeatherActivity extends Activity {
     private Button switchCity;
     private Button refreshWeather;
 
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    swipeRefreshLayout.setRefreshing(true);
+                    break;
+                case 1:
+                    swipeRefreshLayout.setRefreshing(false);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.weather_layout);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        cardView = (CardView) findViewById(R.id.weather_card_view);
         weatherInfoLayout = (LinearLayout) findViewById(R.id.weather_info_layout);
         cityNameText = (TextView) findViewById(R.id.city_name);
         publishText = (TextView) findViewById(R.id.publish_text);
@@ -47,6 +75,19 @@ public class WeatherActivity extends Activity {
         temp2Text = (TextView) findViewById(R.id.temp2);
         currentDateText = (TextView) findViewById(R.id.current_date);
         String countyCode = getIntent().getStringExtra("county_code");
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#00BFFF"), Color.parseColor("#00FF7F"), Color.parseColor("#FFFF00"));
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.parseColor("#FFFFFF"));
+        swipeRefreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
+        swipeRefreshLayout.setProgressViewEndTarget(true, 100);
+        swipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+        swipeRefreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                swipeRefreshLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                swipeRefreshLayout.setRefreshing(true);
+                refreshWeather();
+            }
+        });
         if (!TextUtils.isEmpty(countyCode)) {
             publishText.setText("同步中...");
             weatherInfoLayout.setVisibility(View.INVISIBLE);
@@ -56,8 +97,14 @@ public class WeatherActivity extends Activity {
             showWeather();
         }
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshWeather();
+            }
+        });
         switchCity = (Button) findViewById(R.id.switch_city);
-        refreshWeather = (Button) findViewById(R.id.refresh_weather);
+//        refreshWeather = (Button) findViewById(R.id.refresh_weather);
         switchCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,18 +114,28 @@ public class WeatherActivity extends Activity {
                 finish();
             }
         });
-        refreshWeather.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                publishText.setText("同步中...");
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this);
-                String weatherCode = prefs.getString("weather_code", "");
-                if (!TextUtils.isEmpty(weatherCode)) {
-                    queryWeatherInfo(weatherCode);
-                }
-            }
-        });
+//        refreshWeather.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                publishText.setText("同步中...");
+//                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this);
+//                String weatherCode = prefs.getString("weather_code", "");
+//                if (!TextUtils.isEmpty(weatherCode)) {
+//                    queryWeatherInfo(weatherCode);
+//                }
+//            }
+//        });
 
+    }
+
+    private void refreshWeather() {
+        publishText.setText("同步中...");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this);
+        String weatherCode = prefs.getString("weather_code", "");
+        if (!TextUtils.isEmpty(weatherCode)) {
+            queryWeatherInfo(weatherCode);
+        }
+        handler.sendEmptyMessage(1);
     }
 
     private void queryWeatherCode(String countyCode) {
