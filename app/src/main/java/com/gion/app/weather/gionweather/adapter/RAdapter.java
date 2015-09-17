@@ -1,6 +1,6 @@
 package com.gion.app.weather.gionweather.adapter;
 
-import android.support.v7.internal.widget.AdapterViewCompat;
+//import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -73,6 +73,18 @@ public class RAdapter extends RecyclerView.Adapter<RAdapter.ViewHolder> {
     public int getItemCount() {
         return dataList.size();
     }
+
+    public void addData(int position, List<String> dataList) {
+        position = dataList.size() + 1;
+        dataList.add(position, "insert one");
+        notifyItemInserted(position);
+    }
+    public void removeData(List<String> dataList) {
+        int position = dataList.size();
+        dataList.remove(position);
+        notifyItemRemoved(position);
+    }
+
 
 
 

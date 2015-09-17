@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.gion.app.weather.gionweather.activity.ShowActivity">
+
+    <item
+        android:id="@+id/action_inbox"
+        android:icon="@drawable/ic_inbox_white"
+        android:title="Inbox"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_more_grey"
+        android:title="Setting"
+        app:showAsAction="always" />
+
+</menu>

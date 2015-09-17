@@ -1,8 +1,25 @@
 <resources>
     <string name="app_name">GionWeather</string>
+    <string name="home_page">首页</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_choose_area">ChooseAreaActivity</string>
     <string name="title_activity_weather">WeatherActivity</string>
+    <string name="title_activity_show">show</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="gion">Gion</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_base">BaseActivity</string>
+
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1565C0</color>
+    <color name="colorAccent">#E91E63</color>
+    <color name="nav_item_icon_tint_color">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="nav_item_text_color">#000000</color>
+
 </resources>

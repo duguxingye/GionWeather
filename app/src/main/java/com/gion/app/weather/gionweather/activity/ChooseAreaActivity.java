@@ -11,9 +11,11 @@ import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +24,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,26 +53,8 @@ public class ChooseAreaActivity extends Activity {
     private RAdapter rAdapter;
     private RecyclerView.LayoutManager rLayoutManager;
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    swipeRefreshLayout.setRefreshing(true);
-                    rAdapter.notifyDataSetChanged();
-                    break;
-                case 1:
-                    swipeRefreshLayout.setRefreshing(false);
-                    rAdapter.notifyDataSetChanged();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    private ProgressDialog progressDialog;
+    private Button addData;
+    private Button removeData;
     private TextView titleText;
     private GionWeatherDB gionWeatherDB;
     private List<String> dataList = new ArrayList<>();
@@ -85,6 +70,35 @@ public class ChooseAreaActivity extends Activity {
 
     private boolean isFromWeatherActivity;
 
+    private void initStudent() {
+        String[] stu = new String[2];
+        stu[0] = "test1";
+        stu[1] = "test2";
+        for (int i = 0; i < 2; i ++) {
+            Log.d("test", "i" +i);
+        }
+    }
+
+//    private Handler handler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            switch (msg.what) {
+//                case 0:
+//
+//                    swipeRefreshLayout.setRefreshing(true);
+//                    rAdapter.notifyDataSetChanged();
+//                    break;
+//                case 1:
+//                    swipeRefreshLayout.setRefreshing(false);
+//                    rAdapter.notifyDataSetChanged();
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +112,8 @@ public class ChooseAreaActivity extends Activity {
         }
         setContentView(R.layout.choose_area);
         gionWeatherDB = GionWeatherDB.getInstance(this);
+        addData = (Button) findViewById(R.id.addData);
+        removeData = (Button) findViewById(R.id.removeData);
         titleText = (TextView) findViewById(R.id.title_text);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#00BFFF"), Color.parseColor("#00FF7F"), Color.parseColor("#FFFF00"));
@@ -110,14 +126,33 @@ public class ChooseAreaActivity extends Activity {
             public void onGlobalLayout() {
                 swipeRefreshLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 swipeRefreshLayout.setRefreshing(true);
-                queryProvinces();
+                initStudent();
+//                queryProvinces();
             }
         });
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         rLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(rLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         rAdapter = new RAdapter(dataList);
+        addData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                swipeRefreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
+                int position = 0;
+                rAdapter.notifyItemInserted(position);
+            }
+        });
+
+        removeData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = 1;
+                rAdapter.notifyItemRemoved(position);
+            }
+        });
+
         rAdapter.setOnClickListener(new RAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -165,7 +200,12 @@ public class ChooseAreaActivity extends Activity {
         } else {
             queryFromServer(null, "province");
         }
-        handler.sendEmptyMessage(1);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }, 1000);
     }
 
     private void queryCities() {
@@ -181,7 +221,13 @@ public class ChooseAreaActivity extends Activity {
         } else {
             queryFromServer(selectedProvince.getProvinceCode(), "city");
         }
-        handler.sendEmptyMessage(1);
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }, 1000);
     }
 
     private void queryCounties() {
@@ -190,6 +236,7 @@ public class ChooseAreaActivity extends Activity {
             dataList.clear();
             for (County county : countyList) {
                 dataList.add(county.getCountyName());
+//                dataList.add(new WeatherActivity().onCreate();)
             }
             rAdapter.notifyDataSetChanged();
             titleText.setText(selectedCity.getCityName());
@@ -197,17 +244,23 @@ public class ChooseAreaActivity extends Activity {
         } else {
             queryFromServer(selectedCity.getCityCode(), "county");
         }
-        handler.sendEmptyMessage(1);
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }, 1000);
     }
 
     private void queryFromServer(final String code, final String type) {
         String address;
+        showRefresh();
         if (!TextUtils.isEmpty(code)) {
             address = "http://www.weather.com.cn/data/list3/city" + code + ".xml";
         } else {
             address = "http://www.weather.com.cn/data/list3/city.xml";
         }
-        showRefresh();
         HttpUtil.sendHttpRequest(address, new HttpCallBackListener() {
             @Override
             public void onFinish(String response) {
@@ -224,7 +277,7 @@ public class ChooseAreaActivity extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            closeRefresh();
+//                            closeRefresh();
                             if ("province".equals(type)) {
                                 queryProvinces();
                             } else if ("city".equals(type)) {
@@ -257,7 +310,13 @@ public class ChooseAreaActivity extends Activity {
     }
 
     private void closeRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }, 1000);
     }
 
     @Override

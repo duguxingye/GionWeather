@@ -13,8 +13,22 @@
         <TextView
             android:id="@+id/title_text"
             android:layout_centerInParent="true"
-            android:textColor="#fff"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/addData"
+            android:text="addData"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/removeData"
+            android:text="removeData"
+            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

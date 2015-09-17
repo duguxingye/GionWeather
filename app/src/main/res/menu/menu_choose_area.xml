@@ -2,6 +2,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.gion.app.weather.gionweather.activity.ChooseAreaActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <group android:checkableBehavior="all">
+        <item
+            android:id="@+id/navItem1"
+            android:icon="@drawable/ic_instagram_white"
+            android:title="Home"/>
+        <item
+            android:id="@+id/navItem2"
+            android:icon="@drawable/ic_instagram_white"
+            android:title="Blog"/>
+        <item
+            android:id="@+id/navItem3"
+            android:icon="@drawable/ic_instagram_white"
+            android:title="About"/>
+        <item
+            android:id="@+id/navItem4"
+            android:icon="@drawable/ic_instagram_white"
+            android:title="Contact"/>
+    </group>
 </menu>
